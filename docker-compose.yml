@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  # Python VLESS App
+  vless-app:
+    image: ghcr.io/${{ github.repository_owner }}/pyws:latest
+    restart: always
+    ports:
+      - "8080:8080" # Python app run တဲ့ port
+
+  # Cloudflare Tunnel
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel run --token eyJhIjoiNTBlNjY3NDA4YTBjMWQ1MmVmNTBhZmIyNGViNmViOGEiLCJ0IjoiM2RkMTAwZjYtOTQwMS00MDZiLTlhM2MtZGE2MDc3ZWViMTAyIiwicyI6IllUazJaV1k0TkRrdE1EZ3lPUzAwWXpnMUxUbGlaVFF0WXpZNE9Ua3hOVFExTm1FdyJ9
+    depends_on:
+      - vless-app
+
